@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import SidebarForms from "../components/SideBarForms";
 import { useNavigate, useParams } from "react-router-dom";
 import dayjs from "dayjs";
@@ -11,6 +11,7 @@ dayjs.extend(utc);
 
 const AdvertisingPiece = () => {
   const params = useParams();
+  const navigate = useNavigate();
   const { spectators, getSpectators } = useSpectatorRequest();
   const { createAdvertisement, getAdvertisement, updateAdvertisement } =
     useAdvertisingRequest();
@@ -21,6 +22,7 @@ const AdvertisingPiece = () => {
     formState: { errors },
     control,
   } = useForm();
+  const [successMessage, setSuccessMessage] = useState("");
   const onSubmit = async (data) => {
     try {
       if (params.id) {
@@ -28,13 +30,23 @@ const AdvertisingPiece = () => {
         updateAdvertisement(params.id, {
           ...data,
         });
+        setSuccessMessage("Cambios guardados exitosamente");
+        setTimeout(() => {
+          setSuccessMessage("");
+        }, 3000);
       } else {
         console.log(data);
         createAdvertisement({
           ...data,
         });
+        setSuccessMessage("Creado Exitosamente");
+        setTimeout(() => {
+          setSuccessMessage("");
+        }, 3000);
       }
-      navigate("/homepage");
+      setTimeout(() => {
+        navigate("/homepage");
+      }, 6000);
     } catch (error) {
       console.log(error);
     }
@@ -48,13 +60,19 @@ const AdvertisingPiece = () => {
         console.log(advertisement);
         setValue("title", advertisement.title);
         setValue("area", advertisement.area);
+        const firstSpectator =
+          advertisement.spectators.length > 0
+            ? advertisement.spectators[0].title
+            : "";
+        setValue("spectators", firstSpectator);
+        console.log(firstSpectator);
 
         setValue("goals", advertisement.goals);
         setValue("area", advertisement.area);
         setValue("scope", advertisement.scope);
-        setValue("descripton", advertisement.description);
+        setValue("description", advertisement.description);
         setValue("visual_references", advertisement.visual_references);
-        setValue("registration_link", advertisement.registration_link);
+        setValue("registrations_links", advertisement.registrations_links);
       }
     };
     loadEvent();
@@ -66,7 +84,7 @@ const AdvertisingPiece = () => {
       <br />
       <form onSubmit={handleSubmit(onSubmit)}>
         <label>
-          Title:
+          Titulo:
           <input
             type="text"
             name="title"
@@ -82,8 +100,7 @@ const AdvertisingPiece = () => {
         </label>
 
         <label>
-          Goals:
-          <textarea name="goals" required />
+          Objetivos:
           <input type="text" name="area" {...register("goals")} required />
         </label>
         <div className="mb-4">
@@ -92,7 +109,8 @@ const AdvertisingPiece = () => {
           </Label>
           <select
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-900 leading-tight focus:outline-none focus:shadow-outline"
-            {...register("spectators")}
+            {...register("spectators")} // Asegúrate de que spectators esté registrado correctamente
+            defaultValue={spectators.length > 0 ? spectators[0].title : ""} // Establece el valor predeterminado del select
             required
           >
             <option value="">Selecciona un espectador</option>
@@ -103,8 +121,9 @@ const AdvertisingPiece = () => {
             ))}
           </select>
         </div>
+
         <label>
-          Scope:
+          Alcanze:
           <select name="scope" {...register("scope")} required>
             <option value="">Select Scope</option>
             <option value="regional">Regional</option>
@@ -112,25 +131,44 @@ const AdvertisingPiece = () => {
           </select>
         </label>
         <label>
-          Description:
-          <textarea name="description" {...register("description")} required />
+          Descripción:
+          <input
+            type="text"
+            name="description"
+            {...register("description")}
+            required
+          />
         </label>
         <label>
-          Visual References:
+          Referencias Visuales:
           <input
             type="text"
             name="visual_references"
-            {...register("visual_reference")}
+            {...register("visual_references")}
           />
         </label>
         <label>
-          Registrations Links:
+          Link de Registro:
           <input
             type="text"
             name="registrations_links"
-            {...register("registration_links")}
+            {...register("registrations_links")}
           />
         </label>
+
+        {successMessage && (
+          <div
+            style={{
+              backgroundColor: "green",
+              color: "white",
+              padding: "10px",
+              marginBottom: "10px",
+            }}
+          >
+            {successMessage}
+          </div>
+        )}
+
         <button type="submit">Submit</button>
       </form>
     </>

@@ -2,8 +2,8 @@ import axios from "./axios";
 
 export const getSpectatorsRequest = async () => axios.get("/auth/spectators");
 
-export const getSpectatorAdminRequest = async () =>
-  axios.get("/auth/admin/spectators");
+export const getMySpectatorAdminRequest = async () =>
+  axios.get("/auth/admin/spectators/me");
 
 export const createSpectatorRequest = async (spectator) =>
   axios.post("/auth/admin/spectators", spectator);

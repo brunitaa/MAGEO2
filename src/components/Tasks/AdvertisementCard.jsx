@@ -7,12 +7,13 @@ export function AdvertisementCard({ advertisement, isAdmin }) {
   console.log(isAdmin);
   const handleDelete = async () => {
     await deleteAdvertisement(advertisement._id);
+    window.location.reload();
     // Llamar a la función para actualizar la lista de anuncios después de borrar
   };
   return (
     <Card>
       <header className="flex justify-between">
-        <h1 className="text-2xl font-bold">{advertisement.title}</h1>
+        <h2 className="text-2xl font-bold">{advertisement.title}</h2>
         <div className="flex gap-x-2 items-center">
           <Button onClick={handleDelete}>Delete</Button>
           {isAdmin ? (
@@ -27,7 +28,10 @@ export function AdvertisementCard({ advertisement, isAdmin }) {
         </div>
       </header>
       <p className="text-slate-300">{advertisement.description}</p>
-      <p className="text-slate-300">{advertisement.state}</p>
+      <p className="text-slate-300">
+        Observaciones:{advertisement.observations}
+      </p>
+      <p className="text-slate-300">Estado:{advertisement.state}</p>
     </Card>
   );
 }

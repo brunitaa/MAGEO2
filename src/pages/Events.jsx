@@ -12,6 +12,7 @@ dayjs.extend(utc);
 
 function EventForm() {
   const params = useParams();
+  const [successMessage, setSuccessMessage] = useState("");
   const { createEvent, getEvent, updateEvent } = useEventRequest();
   const { spectators, getSpectators } = useSpectatorRequest();
   const navigate = useNavigate();
@@ -48,13 +49,20 @@ function EventForm() {
         updateEvent(params.id, {
           ...data,
         });
+        setSuccessMessage("Cambios guardados exitosamente");
       } else {
         console.log(data);
         createEvent({
           ...data,
         });
+        setSuccessMessage("Creado Exitosamente");
+        setTimeout(() => {
+          setSuccessMessage("");
+        }, 3000);
       }
-      navigate("/homepage");
+      setTimeout(() => {
+        navigate("/homepage");
+      }, 6000);
     } catch (error) {
       console.log(error);
     }
@@ -97,7 +105,7 @@ function EventForm() {
               schedule.links_to_visual_material
             );
             setValue(`schedules[${index}].event_type`, schedule.event_type);
-            setValue(`schedules[${index}].spectator`, schedule.pectator);
+            setValue(`schedules[${index}].spectator`, schedule.spectator);
             setValue(`schedules[${index}].coordination`, schedule.coordination);
             setValue(`schedules[${index}].scope`, schedule.scope);
             setValue(`schedules[${index}].description`, schedule.description);
@@ -132,7 +140,7 @@ function EventForm() {
           </Label>
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-900 leading-tight focus:outline-none focus:shadow-outline"
-            name="event_name"
+            name="state"
             type="text"
             placeholder="aqui estara el estado"
             autoFocus
@@ -481,6 +489,18 @@ function EventForm() {
           Eliminar Horario
         </button>
         <br />
+        {successMessage && (
+          <div
+            style={{
+              backgroundColor: "green",
+              color: "white",
+              padding: "10px",
+              marginBottom: "10px",
+            }}
+          >
+            {successMessage}
+          </div>
+        )}
         <button
           type="submit"
           className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"

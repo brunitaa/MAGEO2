@@ -5,6 +5,9 @@ import {
   getAPRequest,
   getAPsRequest,
   updateAPRequest,
+  acceptAPRequest,
+  rejectAPRequest,
+  getMyAPsRequest,
 } from "../api/advertisingPiece";
 
 const AdvertisingContext = createContext();
@@ -22,6 +25,21 @@ export function AdvertisingProvider({ children }) {
     try {
       // Fetch tasks from the API
       const res = await getAPsRequest();
+
+      const fetchedEvents = res.data.data;
+      console.log(res.data.data);
+
+      setAdvertisings(fetchedEvents);
+    } catch (error) {
+      console.error("Error fetching tasks:", error);
+      // Optionally, handle the error (e.g., show an error message)
+    }
+  };
+
+  const getMyAdvertisements = async () => {
+    try {
+      // Fetch tasks from the API
+      const res = await getMyAPsRequest();
 
       const fetchedEvents = res.data.data;
       console.log(res.data.data);
@@ -64,9 +82,24 @@ export function AdvertisingProvider({ children }) {
     }
   };
 
-  const updateAdevertisement = async (id, event) => {
+  const updateAdvertisement = async (id, event) => {
     try {
       await updateAPRequest(id, event);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const acceptAP = async (id, advertisement) => {
+    try {
+      await acceptAPRequest(id, advertisement);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const rejectAP = async (id, advertisement) => {
+    try {
+      await rejectAPRequest(id, advertisement);
     } catch (error) {
       console.error(error);
     }
@@ -80,7 +113,10 @@ export function AdvertisingProvider({ children }) {
         deleteAdvertisement,
         createAdvertisement,
         getAdvertisement,
-        updateAdevertisement,
+        updateAdvertisement,
+        acceptAP,
+        rejectAP,
+        getMyAdvertisements,
       }}
     >
       {children}

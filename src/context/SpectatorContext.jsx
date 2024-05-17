@@ -1,7 +1,7 @@
 import { createContext, useContext, useState } from "react";
 import {
   getSpectatorsRequest,
-  getSpectatorAdminRequest,
+  getMySpectatorAdminRequest,
   createSpectatorRequest,
   updateSpectatorRequest,
   deleteSpectatorRequest,
@@ -38,7 +38,7 @@ export function SpectatorProvider({ children }) {
   const getSpectatorsAdmin = async () => {
     try {
       // Fetch from the API
-      const res = await getSpectatorAdminRequest();
+      const res = await getMySpectatorAdminRequest();
 
       const fetchedSpectators = res.data.data;
       console.log(res.data.data);

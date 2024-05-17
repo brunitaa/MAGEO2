@@ -7,12 +7,15 @@ import { useEventRequest } from "../../context/EventsContext";
 import { useForm, useFieldArray } from "react-hook-form";
 import { format, formatISO } from "date-fns";
 import SidebarForms from "../../components/SideBarForms";
+import { useSpectatorRequest } from "../../context/SpectatorContext";
 dayjs.extend(utc);
 
 function EventFormAdmin() {
+  const [successMessage, setSuccessMessage] = useState("");
   const params = useParams();
   const { createEvent, getEvent, updateEvent, acceptEvent, rejectEvent } =
     useEventRequest();
+  const { spectators, getSpectators } = useSpectatorRequest();
   const navigate = useNavigate();
   const {
     register,
@@ -52,7 +55,7 @@ function EventFormAdmin() {
           ...data,
         });
       }
-      navigate("/homepage");
+      navigate("/admin");
     } catch (error) {
       console.log(error);
     }
@@ -61,9 +64,20 @@ function EventFormAdmin() {
   const onAccept = async (data) => {
     try {
       console.log(params.id);
+      updateEvent(params.id, {
+        ...data,
+      });
       acceptEvent(params.id, {
         ...data,
       });
+      setSuccessMessage("Aceptado Correctamente");
+      setTimeout(() => {
+        setSuccessMessage("");
+      }, 3000);
+
+      setTimeout(() => {
+        navigate("/admin");
+      }, 5000);
 
       navigate("/admin");
     } catch (error) {
@@ -74,9 +88,20 @@ function EventFormAdmin() {
   const onReject = async (data) => {
     try {
       console.log(params.id);
+      updateEvent(params.id, {
+        ...data,
+      });
       rejectEvent(params.id, {
         ...data,
       });
+      setSuccessMessage("Rechazado Correctamente");
+      setTimeout(() => {
+        setSuccessMessage("");
+      }, 3000);
+
+      setTimeout(() => {
+        navigate("/admin");
+      }, 5000);
 
       navigate("/admin");
     } catch (error) {
@@ -84,6 +109,7 @@ function EventFormAdmin() {
     }
   };
   useEffect(() => {
+    getSpectators();
     const loadEvent = async () => {
       if (params.id) {
         const event = await getEvent(params.id);
@@ -154,7 +180,7 @@ function EventFormAdmin() {
             type="text"
             placeholder="Nombre del Evento"
             {...register("event_name")}
-            required
+            readOnly
             autoFocus
           />
         </div>
@@ -170,7 +196,7 @@ function EventFormAdmin() {
             id="event_description"
             placeholder="Descripción del Evento"
             {...register("event_description")}
-            required
+            readOnly
           />
         </div>
         <div className="grid grid-cols-2 gap-4 w-full h-full">
@@ -187,7 +213,7 @@ function EventFormAdmin() {
               type="text"
               placeholder={"Area"}
               {...register("area")}
-              required
+              readOnly
             />
           </div>
           <div className="mb-4">
@@ -202,7 +228,6 @@ function EventFormAdmin() {
               id="campus"
               type="text"
               value={"Santa Cruz"}
-              required
               readOnly
               {...register("campus")}
             />
@@ -218,7 +243,7 @@ function EventFormAdmin() {
               id="registration_link"
               type="text"
               placeholder={"Link"}
-              required
+              readOnly
               {...register("registration_link")}
             />
           </div>
@@ -231,7 +256,7 @@ function EventFormAdmin() {
               id="attendance_control"
               type="text"
               placeholder={"Si o No?"}
-              required
+              readOnly
               {...register("attendance_control")}
             >
               <option value="true">Si</option>
@@ -257,7 +282,7 @@ function EventFormAdmin() {
                 name={`schedules[${index}].place`}
                 type="text"
                 placeholder="Lugar"
-                {...register(`schedules[${index}].place`, { required: true })}
+                {...register(`schedules[${index}].place`, { readOnly: true })}
               />
             </div>
             <div className="mb-4">
@@ -272,7 +297,7 @@ function EventFormAdmin() {
                 name={`schedules[${index}].date`}
                 type="date"
                 placeholder="Fecha"
-                {...register(`schedules[${index}].date`, { required: true })}
+                {...register(`schedules[${index}].date`, { readOnly: true })}
               />
             </div>
             <div className="mb-4">
@@ -287,7 +312,7 @@ function EventFormAdmin() {
                 name={`schedules[${index}].time`}
                 type="time"
                 placeholder="Hora"
-                {...register(`schedules[${index}].time`, { required: true })}
+                {...register(`schedules[${index}].time`, { readOnly: true })}
               />
             </div>
             <div className="mb-4">
@@ -302,7 +327,7 @@ function EventFormAdmin() {
                 name={`schedules[${index}].format`}
                 type="text"
                 placeholder="modalidad"
-                {...register(`schedules[${index}].format`, { required: true })}
+                {...register(`schedules[${index}].format`, { readOnly: true })}
               >
                 <option value="Virtual">Virtual</option>
                 <option value="In person">Presencial</option>
@@ -319,9 +344,9 @@ function EventFormAdmin() {
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="event_type"
                 {...register(`schedules[${index}].event_type`, {
-                  required: true,
+                  readOnly: true,
                 })}
-                required
+                readOnly
               >
                 <option value="Talks">Charla</option>
                 <option value="Contest">Concurso</option>
@@ -338,15 +363,37 @@ function EventFormAdmin() {
               </select>
             </div>
             <div className="mb-4">
+              <Label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor={`schedules[${index}].place`}
+              >
+                Dirigido a
+              </Label>
+              <select
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-900 leading-tight focus:outline-none focus:shadow-outline"
+                name={`schedules[${index}].place`}
+                {...register(`schedules[${index}].spectators`, {
+                  readOnly: true,
+                })}
+              >
+                <option value="">Selecciona un espectador</option>
+                {spectators.map((spectator, index) => (
+                  <option key={index} value={spectator._id}>
+                    {spectator.title}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="mb-4">
               <Label className="block text-gray-700 text-sm font-bold mb-2">
                 Alcance del Evento
               </Label>
               <select
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="scope"
-                required
+                readOnly
                 {...register(`schedules[${index}].scope`, {
-                  required: true,
+                  readOnly: true,
                 })}
               >
                 <option value="regional">Regional</option>
@@ -365,7 +412,7 @@ function EventFormAdmin() {
                 id="description"
                 placeholder="Descripción del Evento"
                 {...register(`schedules[${index}].description`)}
-                required
+                readOnly
               />
             </div>
             <div className="mb-4">
@@ -378,9 +425,9 @@ function EventFormAdmin() {
               <select
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="coordination"
-                required
+                readOnly
                 {...register(`schedules[${index}].coordination`, {
-                  required: true,
+                  readOnly: true,
                 })}
               >
                 <option value="bienestar">Bienestar</option>
@@ -400,9 +447,9 @@ function EventFormAdmin() {
                 id="activity_objective"
                 type="text"
                 placeholder="Objetivo de la Actividad"
-                required
+                readOnly
                 {...register(`schedules[${index}].activity_objective`, {
-                  required: true,
+                  readOnly: true,
                 })}
               />
             </div>
@@ -415,9 +462,9 @@ function EventFormAdmin() {
                 id="links_to_visual_material"
                 type="text"
                 placeholder={"Link"}
-                required
+                readOnly
                 {...register(`schedules[${index}].links_to_visual_material`, {
-                  required: true,
+                  readOnly: true,
                 })}
               />
             </div>
@@ -448,6 +495,19 @@ function EventFormAdmin() {
         </button>
         <br></br>
 
+        <div className="mb-4">
+          <Label className="block text-gray-700 text-sm font-bold mb-2">
+            Observaciones
+          </Label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="observations"
+            type="text"
+            placeholder={"observations"}
+            {...register(`observations`)}
+          />
+        </div>
+
         <button
           type="button"
           onClick={() => onAccept()}
@@ -463,6 +523,18 @@ function EventFormAdmin() {
         >
           Denegar
         </button>
+        {successMessage && (
+          <div
+            style={{
+              backgroundColor: "green",
+              color: "white",
+              padding: "10px",
+              marginBottom: "10px",
+            }}
+          >
+            {successMessage}
+          </div>
+        )}
       </form>
     </>
   );

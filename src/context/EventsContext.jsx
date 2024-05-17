@@ -7,6 +7,7 @@ import {
   updateEventsRequest,
   acceptEventsRequest,
   rejectEventsRequest,
+  getMyEventsRequest,
 } from "../api/events";
 
 const EventContext = createContext();
@@ -24,6 +25,21 @@ export function EventProvider({ children }) {
     try {
       // Fetch tasks from the API
       const res = await getEventsRequest();
+
+      const fetchedEvents = res.data.data;
+      console.log(res.data.data);
+
+      setEvents(fetchedEvents);
+    } catch (error) {
+      console.error("Error fetching tasks:", error);
+      // Optionally, handle the error (e.g., show an error message)
+    }
+  };
+
+  const getMyEvents = async () => {
+    try {
+      // Fetch tasks from the API
+      const res = await getMyEventsRequest();
 
       const fetchedEvents = res.data.data;
       console.log(res.data.data);
@@ -98,6 +114,7 @@ export function EventProvider({ children }) {
         updateEvent,
         acceptEvent,
         rejectEvent,
+        getMyEvents,
       }}
     >
       {children}

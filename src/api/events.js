@@ -2,6 +2,9 @@ import axios from "./axios";
 
 export const getEventsRequest = async () => axios.get("/auth/users/events");
 
+export const getMyEventsRequest = async () =>
+  axios.get("/auth/users/events/me");
+
 export const createEventRequest = async (event) =>
   axios.post("/auth/users/events", event);
 

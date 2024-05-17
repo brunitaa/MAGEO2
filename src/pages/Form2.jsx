@@ -15,7 +15,7 @@ import Transporte from "./Logistica/Transporte";
 import { useEventRequest } from "../context/EventsContext";
 import { useForm } from "react-hook-form";
 
-function Form2() {
+function ProtocoloLogistica() {
   const params = useParams();
   const { createEvent, getEvent, updateEvent } = useEventRequest();
   const [eventData, setEventData] = useState(null);
@@ -279,4 +279,4 @@ function Form2() {
   );
 }
 
-export default Form2;
+export default ProtocoloLogistica;

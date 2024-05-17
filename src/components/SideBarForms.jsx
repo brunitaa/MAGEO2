@@ -70,10 +70,7 @@ function SidebarForms() {
         >
           <Icon.Envelope />
           <div className="flex justify-between w-full Ítems-center">
-            <Link
-              to={`/form2`}
-              className="text-sm ml-3 text-gray-200 font-bold"
-            >
+            <Link className="text-sm ml-3 text-gray-200 font-bold">
               Formulario 2
             </Link>
             <span
@@ -86,6 +83,24 @@ function SidebarForms() {
         </div>
 
         <div className="my-2 bg-gray-600 h-px"></div>
+        <div className="p-2.5 mt-3 flex Ítems-center rounded-md px-4 duration-300 cursor-pointer hover:bg-red-600 text-white">
+          <Icon.Envelope />
+          <Link
+            to={`/user/logistic`}
+            className="text-sm ml-3 text-gray-200 font-bold"
+          >
+            Logistica
+          </Link>
+        </div>
+        <div className="p-2.5 mt-3 flex Ítems-center rounded-md px-4 duration-300 cursor-pointer hover:bg-red-600 text-white">
+          <Icon.Envelope />
+          <Link
+            to={`/user/protocol`}
+            className="text-sm ml-3 text-gray-200 font-bold"
+          >
+            Protocol
+          </Link>
+        </div>
 
         <div className="p-2.5 mt-3 flex Ítems-center rounded-md px-4 duration-300 cursor-pointer hover:bg-red-600 text-white">
           <Icon.Envelope />
