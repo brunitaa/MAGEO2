@@ -28,9 +28,9 @@ export function HomePage2() {
   }, []);
 
   return (
-    <div className="flex">
+    <div className="d-flex">
       <Sidebar />
-      <div className="ml-4">
+      <div className="container ml-4">
         <section>
           <h1 className="text-2xl font-bold mb-4">Eventos</h1>
           {events.length === 0 && (

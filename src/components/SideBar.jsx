@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import * as Icon from "react-bootstrap-icons";
 
 function Sidebar() {
   const navigate = useNavigate();
   const { isAuthenticated, logout, user } = useAuth();
   const [submenuOpen, setSubmenuOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(true);
+
   const toggleSubmenu = () => {
     setSubmenuOpen(!submenuOpen);
   };
@@ -16,52 +16,52 @@ function Sidebar() {
     setSidebarOpen(!sidebarOpen);
   };
 
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate("/"); // Redirige al usuario a la página de inicio después de cerrar sesión
+      console.log("Signed out successfully");
+    } catch (error) {
+      console.log("Error al cerrar sesión:", error.message);
+    }
+  };
+
   return (
     <aside
-      className={` fixed top-0 bottom-0 h-screen lg:relative  bg-red-900 ${
-        sidebarOpen ? "" : "hidden"
-      }`}
+      className={`fixed top-0 bottom-0 h-100 bg-danger ${
+        sidebarOpen ? "d-block" : "d-none"
+      } lg:static`}
     >
-      <div className="p-2 lg:w-72 lg:flex lg:flex-col lg:justify-between h-full lg:h-auto">
-        <div className="text-gray-100 text-xl">
-          <div className="p-2.5 mt-1 flex Ítems-center">
-            <Icon.ArrowRight />
-            <h1 className="font-bold text-gray-200 text-sm ml-3">SIEGEMUV</h1>
+      <div className="d-flex flex-column justify-between h-100 p-3">
+        <div>
+          <div className="d-flex align-items-center">
+            <h1 className="text-white fw-bold fs-6 ml-3">SIEGEMUV</h1>
             <i
-              className="bi bi-x cursor-pointer ml-3 lg:hidden"
+              className="bi bi-x cursor-pointer ms-auto d-lg-none"
               onClick={toggleSidebar}
             ></i>
           </div>
-          <div className="my-2 bg-gray-600 h-px"></div>
+          <hr className="text-secondary my-2" />
+          <nav className="nav flex-column">
+            <Link to="/homepage" className="nav-link text-light">
+              Home
+            </Link>
+            <Link to="/manual" className="nav-link text-light">
+              Preguntas
+            </Link>
+            <hr className="text-secondary my-2" />
+            <Link to="/events" className="nav-link text-light">
+              Solicitar Evento
+            </Link>
+            <hr className="text-secondary my-2" />
+          </nav>
         </div>
-
-        <div className="p-2.5 mt-3 flex Ítems-center rounded-md px-4 duration-300 cursor-pointer hover:bg-red-600 text-white">
-          <Icon.HouseFill />
-          <Link to="/homepage" className="text-sm ml-3 text-gray-200 font-bold">
-            Home
-          </Link>
-        </div>
-        <div className="p-2.5 mt-3 flex Ítems-center rounded-md px-4 duration-300 cursor-pointer hover:bg-red-600 text-white">
-          <Icon.Question />
-          <Link to="/manual" className="text-sm ml-3 text-gray-200 font-bold">
-            Preguntas
-          </Link>
-        </div>
-        <div className="my-4 bg-gray-600 h-px"></div>
-        <div className="p-2.5 mt-3 flex Ítems-center rounded-md px-4 duration-300 cursor-pointer hover:bg-red-600 text-white">
-          <Icon.Envelope />
-          <Link to="/events" className="text-sm ml-3 text-gray-200 font-bold">
-            Solicitar Evento
-          </Link>
-        </div>
-        <div className="my-4 bg-gray-600 h-px"></div>
-
         <button
-          className="p-2.5 mt-3 flex Ítems-center rounded-md px-4 duration-300 cursor-pointer hover:bg-red-600 text-white"
-          onClick={() => logout()}
+          className="btn btn-danger mt-auto d-flex align-items-center"
+          onClick={handleLogout}
         >
           <i className="bi bi-box-arrow-in-right"></i>
-          <span className="text-sm ml-3 text-gray-200 font-bold">Log Out</span>
+          <span className="ms-2 text-light">Log Out</span>
         </button>
       </div>
     </aside>

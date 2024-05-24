@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import * as Icon from "react-bootstrap-icons";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 function SidebarForms() {
@@ -14,9 +13,11 @@ function SidebarForms() {
   const toggleSubmenu = () => {
     setSubmenuOpen(!submenuOpen);
   };
+
   const toggleProtocolo = () => {
     setSubmenuProtocolo(!submenuProtocolo);
   };
+
   const toggleLogistica = () => {
     setSubmenuLogistica(!submenuLogistica);
   };
@@ -37,40 +38,44 @@ function SidebarForms() {
 
   return (
     <aside
-      className={` fixed top-0 bottom-0 lg:relative  bg-red-900 ${
-        sidebarOpen ? "" : "hidden"
-      }`}
+      className={`d-lg-block bg-danger ${sidebarOpen ? "" : "d-none"}`}
+      style={{ position: "fixed", top: 0, bottom: 0 }}
     >
-      <div className="my-2 bg-gray-600 h-px"></div>
-      <div className="p-2 lg:w-72 lg:flex lg:flex-col lg:justify-between h-full lg:h-auto">
-        <div className="text-gray-100 text-xl">
-          <div className="p-2.5 mt-1 flex Ítems-center">
-            <i className="bi bi-app-indicator px-2 py-1 rounded-md bg-red-800"></i>
-            <h1 className="font-bold text-gray-200 text-sm ml-3">SIEGEMUV</h1>
+      <div className="border-bottom border-light my-2"></div>
+      <div className="p-3">
+        <div className="text-light text-xl">
+          <div className="d-flex align-items-center">
+            <i className="bi bi-app-indicator px-2 py-1 bg-danger"></i>
+            <h1 className="font-weight-bold text-light text-sm ml-3">
+              SIEGEMUV
+            </h1>
           </div>
-          <div className="my-2 bg-gray-600 h-px"></div>
+          <div className="border-bottom border-light my-2"></div>
         </div>
-        <div className="p-2.5 mt-3 flex Ítems-center rounded-md px-4 duration-300 cursor-pointer hover:bg-red-600 text-white">
-          <Icon.HouseFill />
-          <Link to="/homepage" className="text-sm ml-3 text-gray-200 font-bold">
+        <div className="p-2 d-flex align-items-center rounded hover-bg-danger text-white">
+          <Link
+            to="/homepage"
+            className="text-sm ml-3 text-light font-weight-bold"
+          >
             Home
           </Link>
         </div>
-        <div className="my-2 bg-gray-600 h-px"></div>
-        <div className="p-2.5 mt-3 flex Ítems-center rounded-md px-4 duration-300 cursor-pointer hover:bg-red-600 text-white">
-          <Icon.Envelope />
-          <Link to="/events" className="text-sm ml-3 text-gray-200 font-bold">
+        <div className="border-bottom border-light my-2"></div>
+        <div className="p-2 d-flex align-items-center rounded hover-bg-danger text-white">
+          <Link
+            to="/events"
+            className="text-sm ml-3 text-light font-weight-bold"
+          >
             Form 1
           </Link>
         </div>
-        <div className="my-2 bg-gray-600 h-px"></div>
+        <div className="border-bottom border-light my-2"></div>
         <div
-          className="p-2.5 mt-3 flex Ítems-center rounded-md px-4 duration-300 cursor-pointer hover:bg-red-600 text-white"
+          className="p-2 d-flex align-items-center rounded hover-bg-danger text-white"
           onClick={toggleSubmenu}
         >
-          <Icon.Envelope />
-          <div className="flex justify-between w-full Ítems-center">
-            <Link className="text-sm ml-3 text-gray-200 font-bold">
+          <div className="d-flex justify-content-between w-100 align-items-center">
+            <Link className="text-sm ml-3 text-light font-weight-bold">
               Formulario 2
             </Link>
             <span
@@ -82,43 +87,42 @@ function SidebarForms() {
           </div>
         </div>
 
-        <div className="my-2 bg-gray-600 h-px"></div>
-        <div className="p-2.5 mt-3 flex Ítems-center rounded-md px-4 duration-300 cursor-pointer hover:bg-red-600 text-white">
-          <Icon.Envelope />
+        <div className="border-bottom border-light my-2"></div>
+        <div className="p-2 d-flex align-items-center rounded hover-bg-danger text-white">
           <Link
             to={`/user/logistic`}
-            className="text-sm ml-3 text-gray-200 font-bold"
+            className="text-sm ml-3 text-light font-weight-bold"
           >
             Logistica
           </Link>
         </div>
-        <div className="p-2.5 mt-3 flex Ítems-center rounded-md px-4 duration-300 cursor-pointer hover:bg-red-600 text-white">
-          <Icon.Envelope />
+        <div className="p-2 d-flex align-items-center rounded hover-bg-danger text-white">
           <Link
             to={`/user/protocol`}
-            className="text-sm ml-3 text-gray-200 font-bold"
+            className="text-sm ml-3 text-light font-weight-bold"
           >
             Protocol
           </Link>
         </div>
 
-        <div className="p-2.5 mt-3 flex Ítems-center rounded-md px-4 duration-300 cursor-pointer hover:bg-red-600 text-white">
-          <Icon.Envelope />
+        <div className="p-2 d-flex align-items-center rounded hover-bg-danger text-white">
           <Link
             to={`/advertisingPiece`}
-            className="text-sm ml-3 text-gray-200 font-bold"
+            className="text-sm ml-3 text-light font-weight-bold"
           >
             Form 3
           </Link>
         </div>
-        <div className="my-2 bg-gray-600 h-px"></div>
+        <div className="border-bottom border-light my-2"></div>
       </div>
       <button
-        className="p-2.5 mt-3 flex Ítems-center rounded-md px-4 duration-300 cursor-pointer hover:bg-red-600 text-white"
+        className="p-2 mt-3 d-flex align-items-center rounded hover-bg-danger text-white"
         onClick={() => logout()}
       >
         <i className="bi bi-box-arrow-in-right"></i>
-        <span className="text-sm ml-3 text-gray-200 font-bold">Log Out</span>
+        <span className="text-sm ml-3 text-light font-weight-bold">
+          Log Out
+        </span>
       </button>
     </aside>
   );

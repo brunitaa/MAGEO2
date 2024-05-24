@@ -124,390 +124,400 @@ function EventForm() {
 
   return (
     <>
-      <SidebarForms></SidebarForms>
-      <form
-        style={{ margin: "10px 20px" }}
-        className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 min-h-screen max-w-4xl mx-auto"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <h1 className="text-3xl font-bold mb-4">Formulario de Solicitud</h1>
-        <div className="mb-4">
-          <Label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="event_name"
+      <div className="d-flex">
+        <SidebarForms />
+
+        <main
+          className="container bg-white shadow rounded px-4 py-5 my-4 ms-auto"
+          style={{ marginLeft: "250px", maxWidth: "64rem" }}
+        >
+          <form
+            className="container bg-white shadow rounded px-4 py-5 my-4 min-vh-100"
+            onSubmit={handleSubmit(onSubmit)}
+            style={{ maxWidth: "64rem" }}
           >
-            Estado
-          </Label>
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-900 leading-tight focus:outline-none focus:shadow-outline"
-            name="state"
-            type="text"
-            placeholder="aqui estara el estado"
-            autoFocus
-            readOnly
-          />
-          <Label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="event_name"
-          >
-            Nombre del Evento
-          </Label>
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-900 leading-tight focus:outline-none focus:shadow-outline"
-            name="event_name"
-            type="text"
-            placeholder="Nombre del Evento"
-            {...register("event_name")}
-            required
-            autoFocus
-          />
-        </div>
-        <div className="mb-4">
-          <Label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="event_description"
-          >
-            Descripción del Evento
-          </Label>
-          <textarea
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-            id="event_description"
-            placeholder="Descripción del Evento"
-            {...register("event_description")}
-            required
-          />
-        </div>
-        <div className="grid grid-cols-2 gap-4 w-full h-full">
-          <div className="mb-4">
-            <Label
-              className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="area"
-            >
-              Area
-            </Label>
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="area"
-              type="text"
-              placeholder={"Area"}
-              {...register("area")}
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <Label
-              className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="campus"
-            >
-              Sede
-            </Label>
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="campus"
-              type="text"
-              value={"Santa Cruz"}
-              required
-              readOnly
-              {...register("campus")}
-            />
-          </div>
-        </div>
-        <div className="grid grid-cols-2 gap-4 w-full h-full">
-          <div className="mb-4">
-            <Label className="block text-gray-700 text-sm font-bold mb-2">
-              Link de Registro
-            </Label>
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="registration_link"
-              type="text"
-              placeholder={"Link"}
-              required
-              {...register("registration_link")}
-            />
-          </div>
-          <div className="mb-4">
-            <Label className="block text-gray-700 text-sm font-bold mb-2">
-              Control de asistencia
-            </Label>
-            <select
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="attendance_control"
-              type="text"
-              placeholder={"Si o No?"}
-              required
-              {...register("attendance_control")}
-            >
-              <option value="true">Si</option>
-              <option value="false">No</option>
-            </select>
-          </div>
-        </div>
-        {/* Otros campos de entrada aquí */}
-        {fields.length > 0 && (
-          <>
-            {/* Sección de programación (schedules) */}
-            <h2 className="text-xl font-bold mb-2">Horarios</h2>
-            {fields.map((schedule, index) => (
-              <div key={schedule.id}>
-                <h3 className="text-lg font-bold mb-2">Horario {index + 1}</h3>
-                <div className="mb-4">
-                  <Label
-                    className="block text-gray-700 text-sm font-bold mb-2"
-                    htmlFor={`schedules[${index}].place`}
-                  >
-                    Lugar
-                  </Label>
-                  <input
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-900 leading-tight focus:outline-none focus:shadow-outline"
-                    name={`schedules[${index}].place`}
-                    type="text"
-                    placeholder="Lugar"
-                    {...register(`schedules[${index}].place`, {
-                      required: true,
-                    })}
-                  />
-                </div>
-                <div className="mb-4">
-                  <Label
-                    className="block text-gray-700 text-sm font-bold mb-2"
-                    htmlFor={`schedules[${index}].date`}
-                  >
-                    Fecha
-                  </Label>
-                  <input
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-900 leading-tight focus:outline-none focus:shadow-outline"
-                    name={`schedules[${index}].date`}
-                    type="date"
-                    placeholder="Fecha"
-                    {...register(`schedules[${index}].date`, {
-                      required: true,
-                    })}
-                  />
-                </div>
-                <div className="mb-4">
-                  <Label
-                    className="block text-gray-700 text-sm font-bold mb-2"
-                    htmlFor={`schedules[${index}].time`}
-                  >
-                    Hora
-                  </Label>
-                  <input
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-900 leading-tight focus:outline-none focus:shadow-outline"
-                    name={`schedules[${index}].time`}
-                    type="time"
-                    placeholder="Hora"
-                    {...register(`schedules[${index}].time`, {
-                      required: true,
-                    })}
-                  />
-                </div>
-                <div className="mb-4">
-                  <Label
-                    className="block text-gray-700 text-sm font-bold mb-2"
-                    htmlFor={`schedules[${index}].time`}
-                  >
-                    Modalidad
-                  </Label>
-                  <select
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-900 leading-tight focus:outline-none focus:shadow-outline"
-                    name={`schedules[${index}].format`}
-                    type="text"
-                    placeholder="modalidad"
-                    {...register(`schedules[${index}].format`, {
-                      required: true,
-                    })}
-                  >
-                    <option value="Virtual">Virtual</option>
-                    <option value="In person">Presencial</option>
-                  </select>
-                </div>
-                <div className="mb-4">
-                  <Label
-                    className="block text-gray-700 text-sm font-bold mb-2"
-                    htmlFor="eventType"
-                  >
-                    Tipo de Evento
-                  </Label>
-                  <select
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    id="event_type"
-                    {...register(`schedules[${index}].event_type`, {
-                      required: true,
-                    })}
-                    required
-                  >
-                    <option value="Talks">Charla</option>
-                    <option value="Contest">Concurso</option>
-                    <option value="Seminar">Seminario</option>
-                    <option value="Symposium">Simposium</option>
-                    <option value="Workshop">Taller</option>
-                    <option value="Conference">Conferencia</option>
-                    <option value="Fair">Feria</option>
-                    <option value="Signing of Agreement">
-                      Firma de Convenio
-                    </option>
-                    <option value="Inauguration">Poseción</option>
-                    <option value="Exhibition">Exposición</option>
-                    <option value="Cultural Activity">
-                      Actividad Cultural
-                    </option>
-                    <option value="Others">
-                      Otros(mencionar en Descripción)
-                    </option>
-                  </select>
-                </div>
-                <div className="mb-4">
-                  <Label
-                    className="block text-gray-700 text-sm font-bold mb-2"
-                    htmlFor={`schedules[${index}].place`}
-                  >
-                    Dirigido a
-                  </Label>
-                  <select
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-900 leading-tight focus:outline-none focus:shadow-outline"
-                    name={`schedules[${index}].place`}
-                    {...register(`schedules[${index}].spectators`, {
-                      required: true,
-                    })}
-                  >
-                    <option value="">Selecciona un espectador</option>
-                    {spectators.map((spectator, index) => (
-                      <option key={index} value={spectator._id}>
-                        {spectator.title}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className="mb-4">
-                  <Label className="block text-gray-700 text-sm font-bold mb-2">
-                    Alcance del Evento
-                  </Label>
-                  <select
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    id="scope"
-                    required
-                    {...register(`schedules[${index}].scope`, {
-                      required: true,
-                    })}
-                  >
-                    <option value="Regional">Regional</option>
-                    <option value="Nacional">Nacional</option>
-                  </select>
-                </div>
-                <div className="mb-4">
-                  <Label
-                    className="block text-gray-700 text-sm font-bold mb-2"
-                    htmlFor="event_description"
-                  >
-                    Descripción
-                  </Label>
-                  <textarea
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                    id="description"
-                    placeholder="Descripción del Evento"
-                    {...register(`schedules[${index}].description`)}
-                    required
-                  />
-                </div>
-                <div className="mb-4">
-                  <Label
-                    className="block text-gray-700 text-sm font-bold mb-2"
-                    htmlFor="coordination"
-                  >
-                    Coordinación con
-                  </Label>
-                  <select
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    id="coordination"
-                    required
-                    {...register(`schedules[${index}].coordination`, {
-                      required: true,
-                    })}
-                  >
-                    <option value="bienestar">Bienestar</option>
-                    <option value="comunicacion">Comunicación</option>
-                    <option value="direccion_carrera">
-                      Dirección de Carrera
-                    </option>
-                    <option value="administracion_marketing">
-                      Administración y Marketing
-                    </option>
-                  </select>
-                </div>
-                <div className="mb-4">
-                  <Label className="block text-gray-700 text-sm font-bold mb-2">
-                    Objetivo de la Actividad
-                  </Label>
-                  <input
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    id="activity_objective"
-                    type="text"
-                    placeholder="Objetivo de la Actividad"
-                    required
-                    {...register(`schedules[${index}].activity_objective`, {
-                      required: true,
-                    })}
-                  />
-                </div>
-                <div className="mb-4">
-                  <Label className="block text-gray-700 text-sm font-bold mb-2">
-                    Link al material Visual
-                  </Label>
-                  <input
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    id="links_to_visual_material"
-                    type="text"
-                    placeholder={"Link"}
-                    required
-                    {...register(
-                      `schedules[${index}].links_to_visual_material`,
-                      {
-                        required: true,
-                      }
-                    )}
-                  />
-                </div>
-                {/* Agrega los demás campos de programación aquí */}
+            <h1 className="text-3xl font-bold mb-4">Formulario de Solicitud</h1>
+            <div className="mb-4">
+              <Label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="event_name"
+              >
+                Estado
+              </Label>
+              <input
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-900 leading-tight focus:outline-none focus:shadow-outline"
+                name="state"
+                type="text"
+                placeholder="aqui estara el estado"
+                autoFocus
+                readOnly
+              />
+              <Label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="event_name"
+              >
+                Nombre del Evento
+              </Label>
+              <input
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-900 leading-tight focus:outline-none focus:shadow-outline"
+                name="event_name"
+                type="text"
+                placeholder="Nombre del Evento"
+                {...register("event_name")}
+                required
+                autoFocus
+              />
+            </div>
+            <div className="mb-4">
+              <Label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="event_description"
+              >
+                Descripción del Evento
+              </Label>
+              <textarea
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                id="event_description"
+                placeholder="Descripción del Evento"
+                {...register("event_description")}
+                required
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-4 w-full h-full">
+              <div className="mb-4">
+                <Label
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                  htmlFor="area"
+                >
+                  Area
+                </Label>
+                <input
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  id="area"
+                  type="text"
+                  placeholder={"Area"}
+                  {...register("area")}
+                  required
+                />
               </div>
-            ))}
-          </>
-        )}
-        <button
-          type="button"
-          onClick={() => append({})}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        >
-          Agregar Horario
-        </button>
-        <br />
-        <button
-          type="button"
-          onClick={() => remove({})}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        >
-          Eliminar Horario
-        </button>
-        <br />
-        {successMessage && (
-          <div
-            style={{
-              backgroundColor: "green",
-              color: "white",
-              padding: "10px",
-              marginBottom: "10px",
-            }}
-          >
-            {successMessage}
-          </div>
-        )}
-        <button
-          type="submit"
-          className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-        >
-          Enviar
-        </button>
-      </form>
+              <div className="mb-4">
+                <Label
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                  htmlFor="campus"
+                >
+                  Sede
+                </Label>
+                <input
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  id="campus"
+                  type="text"
+                  value={"Santa Cruz"}
+                  required
+                  readOnly
+                  {...register("campus")}
+                />
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-4 w-full h-full">
+              <div className="mb-4">
+                <Label className="block text-gray-700 text-sm font-bold mb-2">
+                  Link de Registro
+                </Label>
+                <input
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  id="registration_link"
+                  type="text"
+                  placeholder={"Link"}
+                  required
+                  {...register("registration_link")}
+                />
+              </div>
+              <div className="mb-4">
+                <Label className="block text-gray-700 text-sm font-bold mb-2">
+                  Control de asistencia
+                </Label>
+                <select
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  id="attendance_control"
+                  type="text"
+                  placeholder={"Si o No?"}
+                  required
+                  {...register("attendance_control")}
+                >
+                  <option value="true">Si</option>
+                  <option value="false">No</option>
+                </select>
+              </div>
+            </div>
+            {/* Otros campos de entrada aquí */}
+            {fields.length > 0 && (
+              <>
+                {/* Sección de programación (schedules) */}
+                <h2 className="text-xl font-bold mb-2">Horarios</h2>
+                {fields.map((schedule, index) => (
+                  <div key={schedule.id}>
+                    <h3 className="text-lg font-bold mb-2">
+                      Horario {index + 1}
+                    </h3>
+                    <div className="mb-4">
+                      <Label
+                        className="block text-gray-700 text-sm font-bold mb-2"
+                        htmlFor={`schedules[${index}].place`}
+                      >
+                        Lugar
+                      </Label>
+                      <input
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-900 leading-tight focus:outline-none focus:shadow-outline"
+                        name={`schedules[${index}].place`}
+                        type="text"
+                        placeholder="Lugar"
+                        {...register(`schedules[${index}].place`, {
+                          required: true,
+                        })}
+                      />
+                    </div>
+                    <div className="mb-4">
+                      <Label
+                        className="block text-gray-700 text-sm font-bold mb-2"
+                        htmlFor={`schedules[${index}].date`}
+                      >
+                        Fecha
+                      </Label>
+                      <input
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-900 leading-tight focus:outline-none focus:shadow-outline"
+                        name={`schedules[${index}].date`}
+                        type="date"
+                        placeholder="Fecha"
+                        {...register(`schedules[${index}].date`, {
+                          required: true,
+                        })}
+                      />
+                    </div>
+                    <div className="mb-4">
+                      <Label
+                        className="block text-gray-700 text-sm font-bold mb-2"
+                        htmlFor={`schedules[${index}].time`}
+                      >
+                        Hora
+                      </Label>
+                      <input
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-900 leading-tight focus:outline-none focus:shadow-outline"
+                        name={`schedules[${index}].time`}
+                        type="time"
+                        placeholder="Hora"
+                        {...register(`schedules[${index}].time`, {
+                          required: true,
+                        })}
+                      />
+                    </div>
+                    <div className="mb-4">
+                      <Label
+                        className="block text-gray-700 text-sm font-bold mb-2"
+                        htmlFor={`schedules[${index}].time`}
+                      >
+                        Modalidad
+                      </Label>
+                      <select
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-900 leading-tight focus:outline-none focus:shadow-outline"
+                        name={`schedules[${index}].format`}
+                        type="text"
+                        placeholder="modalidad"
+                        {...register(`schedules[${index}].format`, {
+                          required: true,
+                        })}
+                      >
+                        <option value="Virtual">Virtual</option>
+                        <option value="In person">Presencial</option>
+                      </select>
+                    </div>
+                    <div className="mb-4">
+                      <Label
+                        className="block text-gray-700 text-sm font-bold mb-2"
+                        htmlFor="eventType"
+                      >
+                        Tipo de Evento
+                      </Label>
+                      <select
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="event_type"
+                        {...register(`schedules[${index}].event_type`, {
+                          required: true,
+                        })}
+                        required
+                      >
+                        <option value="Talks">Charla</option>
+                        <option value="Contest">Concurso</option>
+                        <option value="Seminar">Seminario</option>
+                        <option value="Symposium">Simposium</option>
+                        <option value="Workshop">Taller</option>
+                        <option value="Conference">Conferencia</option>
+                        <option value="Fair">Feria</option>
+                        <option value="Signing of Agreement">
+                          Firma de Convenio
+                        </option>
+                        <option value="Inauguration">Poseción</option>
+                        <option value="Exhibition">Exposición</option>
+                        <option value="Cultural Activity">
+                          Actividad Cultural
+                        </option>
+                        <option value="Others">
+                          Otros(mencionar en Descripción)
+                        </option>
+                      </select>
+                    </div>
+                    <div className="mb-4">
+                      <Label
+                        className="block text-gray-700 text-sm font-bold mb-2"
+                        htmlFor={`schedules[${index}].place`}
+                      >
+                        Dirigido a
+                      </Label>
+                      <select
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-900 leading-tight focus:outline-none focus:shadow-outline"
+                        name={`schedules[${index}].place`}
+                        {...register(`schedules[${index}].spectators`, {
+                          required: true,
+                        })}
+                      >
+                        <option value="">Selecciona un espectador</option>
+                        {spectators.map((spectator, index) => (
+                          <option key={index} value={spectator._id}>
+                            {spectator.title}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="mb-4">
+                      <Label className="block text-gray-700 text-sm font-bold mb-2">
+                        Alcance del Evento
+                      </Label>
+                      <select
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="scope"
+                        required
+                        {...register(`schedules[${index}].scope`, {
+                          required: true,
+                        })}
+                      >
+                        <option value="Regional">Regional</option>
+                        <option value="Nacional">Nacional</option>
+                      </select>
+                    </div>
+                    <div className="mb-4">
+                      <Label
+                        className="block text-gray-700 text-sm font-bold mb-2"
+                        htmlFor="event_description"
+                      >
+                        Descripción
+                      </Label>
+                      <textarea
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                        id="description"
+                        placeholder="Descripción del Evento"
+                        {...register(`schedules[${index}].description`)}
+                        required
+                      />
+                    </div>
+                    <div className="mb-4">
+                      <Label
+                        className="block text-gray-700 text-sm font-bold mb-2"
+                        htmlFor="coordination"
+                      >
+                        Coordinación con
+                      </Label>
+                      <select
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="coordination"
+                        required
+                        {...register(`schedules[${index}].coordination`, {
+                          required: true,
+                        })}
+                      >
+                        <option value="bienestar">Bienestar</option>
+                        <option value="comunicacion">Comunicación</option>
+                        <option value="direccion_carrera">
+                          Dirección de Carrera
+                        </option>
+                        <option value="administracion_marketing">
+                          Administración y Marketing
+                        </option>
+                      </select>
+                    </div>
+                    <div className="mb-4">
+                      <Label className="block text-gray-700 text-sm font-bold mb-2">
+                        Objetivo de la Actividad
+                      </Label>
+                      <input
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="activity_objective"
+                        type="text"
+                        placeholder="Objetivo de la Actividad"
+                        required
+                        {...register(`schedules[${index}].activity_objective`, {
+                          required: true,
+                        })}
+                      />
+                    </div>
+                    <div className="mb-4">
+                      <Label className="block text-gray-700 text-sm font-bold mb-2">
+                        Link al material Visual
+                      </Label>
+                      <input
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="links_to_visual_material"
+                        type="text"
+                        placeholder={"Link"}
+                        required
+                        {...register(
+                          `schedules[${index}].links_to_visual_material`,
+                          {
+                            required: true,
+                          }
+                        )}
+                      />
+                    </div>
+                    {/* Agrega los demás campos de programación aquí */}
+                  </div>
+                ))}
+              </>
+            )}
+            <button
+              type="button"
+              onClick={() => append({})}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Agregar Horario
+            </button>
+            <br />
+            <button
+              type="button"
+              onClick={() => remove({})}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Eliminar Horario
+            </button>
+            <br />
+            {successMessage && (
+              <div
+                style={{
+                  backgroundColor: "green",
+                  color: "white",
+                  padding: "10px",
+                  marginBottom: "10px",
+                }}
+              >
+                {successMessage}
+              </div>
+            )}
+            <button
+              type="submit"
+              className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Enviar
+            </button>
+          </form>
+        </main>
+      </div>
     </>
   );
 }

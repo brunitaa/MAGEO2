@@ -85,7 +85,7 @@ const AdvertisingPiece = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <label>
           Titulo:
-          <input
+          <Input
             type="text"
             name="title"
             placeholder="Nombre del Evento"
@@ -96,12 +96,12 @@ const AdvertisingPiece = () => {
 
         <label>
           Area:
-          <input type="text" name="area" {...register("area")} required />
+          <Input type="text" name="area" {...register("area")} required />
         </label>
 
         <label>
           Objetivos:
-          <input type="text" name="area" {...register("goals")} required />
+          <Input type="text" name="area" {...register("goals")} required />
         </label>
         <div className="mb-4">
           <Label className="block text-gray-700 text-sm font-bold mb-2">
@@ -132,7 +132,7 @@ const AdvertisingPiece = () => {
         </label>
         <label>
           Descripción:
-          <input
+          <Input
             type="text"
             name="description"
             {...register("description")}
@@ -141,7 +141,7 @@ const AdvertisingPiece = () => {
         </label>
         <label>
           Referencias Visuales:
-          <input
+          <Input
             type="text"
             name="visual_references"
             {...register("visual_references")}
@@ -149,7 +149,7 @@ const AdvertisingPiece = () => {
         </label>
         <label>
           Link de Registro:
-          <input
+          <Input
             type="text"
             name="registrations_links"
             {...register("registrations_links")}

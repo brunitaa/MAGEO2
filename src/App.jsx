@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { Navbar } from "./components/Navbar";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
-
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import { ProtectedRoute } from "./routes";
 import { EventProvider } from "./context/EventsContext";
